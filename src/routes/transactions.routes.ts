@@ -1,15 +1,13 @@
 import { Router } from 'express';
 import multer from 'multer';
 
-import { getCustomRepository, getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 import TransactionsRepository from '../repositories/TransactionsRepository';
 import CreateTransactionService from '../services/CreateTransactionService';
 import DeleteTransactionService from '../services/DeleteTransactionService';
 import ImportTransactionsService from '../services/ImportTransactionsService';
 
 import uploadConfig from '../config/upload';
-import Category from '../models/Category';
-import Transaction from '../models/Transaction';
 
 const upload = multer(uploadConfig);
 
@@ -48,9 +46,9 @@ transactionsRouter.delete('/:id', async (request, response) => {
 
   const deleteTransaction = new DeleteTransactionService();
 
-  const result = await deleteTransaction.execute({ id });
+  const result = await deleteTransaction.execute(id);
 
-  return response.json(result);
+  return response.status(204).send();
 });
 
 transactionsRouter.post(
